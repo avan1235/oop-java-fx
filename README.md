@@ -51,7 +51,7 @@ Your task is to:
 ## Hints
 
 - first let's take a look at last commit introducing this task to see what is needed to work with JavaFX application
-in Gradle project - you can find it here.
+in Gradle project - you can find it [here](https://github.com/avan1235/oop-java-fx/commit/c38cc6b775d1f510132422e98e0d6876cb8f9d6c).
 - you can find sample app in `Main` class - it creates an application with some buttons and text area
 which are properly aligned and have some actions assigned to them.
 - ou should start your application with `run` task. As usual, you can start it from console with
