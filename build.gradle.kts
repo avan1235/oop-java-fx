@@ -1,12 +1,25 @@
-import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
-
 plugins {
-  id("com.github.johnrengelman.shadow") version "7.1.2"
   java
+  application
+  id("org.openjfx.javafxplugin") version "0.0.13"
+}
+
+java {
+  sourceCompatibility = JavaVersion.VERSION_11
+  targetCompatibility = JavaVersion.VERSION_11
+}
+
+javafx {
+  version = "11"
+  modules = listOf("javafx.controls", "javafx.fxml")
 }
 
 group = "pl.edu.mimuw"
 version = "2022"
+
+application {
+  mainClass.set("pl.edu.mimuw.Main")
+}
 
 repositories {
   mavenCentral()
@@ -20,12 +33,5 @@ dependencies {
 tasks {
   named<Test>("test") {
     useJUnitPlatform()
-  }
-
-  named<ShadowJar>("shadowJar") {
-    mergeServiceFiles()
-    manifest {
-      attributes(mapOf("Main-Class" to "pl.edu.mimuw.Main"))
-    }
   }
 }

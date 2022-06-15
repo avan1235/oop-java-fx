@@ -34,15 +34,3 @@ jobs:
         with:
           name: tests-result
           path: ${{ github.workspace }}/build/reports/tests
-
-      - name: Assemble Fat Jar
-        run: |
-          chmod +x ./gradlew
-          ./gradlew shadowJar
-        shell: bash
-
-      - name: Upload Jar to Workflow Results
-        uses: actions/upload-artifact@v2
-        with:
-          name: oop-2022-all.jar
-          path: build/libs/oop-2022-all.jar
