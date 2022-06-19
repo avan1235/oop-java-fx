@@ -3,19 +3,16 @@ package pl.edu.mimuw;
 public class Addition extends TwoArgumentMathExpression {
 
   public Addition() {
-    this.parent = null;
+    super();
     this.representation = "+";
-    this.rightChild = null;
-    this.leftChild = null;
-    this.hasVariable = false;
   }
 
   @Override
   public Double ifConstantThenValue() {
     if (this.checkVariables())
       return null;
-    Double l = this.leftChild.ifConstantThenValue();
-    Double r = this.rightChild.ifConstantThenValue();
+    Double l = this.getLeftChild().ifConstantThenValue();
+    Double r = this.getRightChild().ifConstantThenValue();
     if (l != null && r != null)
       return l+r;
     return null;
@@ -26,15 +23,15 @@ public class Addition extends TwoArgumentMathExpression {
   public double compute() {
     if (this.isConstant())
       return this.ifConstantThenValue();
-    return this.leftChild.compute()+this.rightChild.compute();
+    return this.getLeftChild().compute()+this.getRightChild().compute();
   }
 
   @Override
   public MathExpression calcDx() {
     if (this.checkVariables()) {
       Addition res = new Addition();
-      res.insertChild(1, this.leftChild.calcDx());
-      res.insertChild(2, this.rightChild.calcDx());
+      res.insertChild(1, this.getLeftChild().calcDx());
+      res.insertChild(2, this.getRightChild().calcDx());
       res.complete = res.checkCompletion();
       res.hasVariable = res.checkVariables();
       return res.recompile();
@@ -48,11 +45,11 @@ public class Addition extends TwoArgumentMathExpression {
       if (!this.checkVariables())
         return new ConstantMathExpression(this.ifConstantThenValue());
       else {
-        if (!this.rightChild.checkVariables() && this.rightChild.ifConstantThenValue() == 0.0)
-          return this.leftChild;
+        if (!this.getRightChild().checkVariables() && this.getRightChild().ifConstantThenValue() == 0.0)
+          return this.getLeftChild();
         else {
-          if (!this.leftChild.checkVariables() && this.leftChild.ifConstantThenValue() == 0.0)
-            return this.rightChild;
+          if (!this.getLeftChild().checkVariables() && this.getLeftChild().ifConstantThenValue() == 0.0)
+            return this.getRightChild();
         }
       }
     }

@@ -3,17 +3,15 @@ package pl.edu.mimuw;
 public class Sinus extends OneArgumentMathExpression {
 
   public Sinus() {
-    this.parent = null;
+    super();
     this.representation = "sin";
-    this.onlyChild = null;
-    this.hasVariable = false;
   }
 
   @Override
   public Double ifConstantThenValue() {
     if (this.checkVariables())
       return null;
-    Double resArg = this.onlyChild.ifConstantThenValue();
+    Double resArg = this.getOnlyChild().ifConstantThenValue();
     if (resArg != null)
       return Math.sin(resArg);
     return null;
@@ -23,17 +21,17 @@ public class Sinus extends OneArgumentMathExpression {
   public double compute() {
     if (this.isConstant())
       return this.ifConstantThenValue();
-    return Math.sin(this.onlyChild.compute());
+    return Math.sin(this.getOnlyChild().compute());
   }
 
   @Override
   public MathExpression calcDx() {
     if (this.checkVariables()) {
       Cosinus cos = new Cosinus();
-      cos.insertChild(1, this.onlyChild);
+      cos.insertChild(1, this.getOnlyChild());
       Multiplication res = new Multiplication();
       res.insertChild(1, cos);
-      res.insertChild(2, this.onlyChild.calcDx());
+      res.insertChild(2, this.getOnlyChild().calcDx());
       res.complete = res.checkCompletion();
       res.hasVariable = res.checkVariables();
       return res.recompile();

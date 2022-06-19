@@ -4,9 +4,7 @@ public class Variable extends MathExpression {
   public static Double assignedValue = null;
 
   public Variable() {
-    this.parent = null;
-    this.complete = true;
-    this.hasVariable = true;
+    super();
   }
 
   public String toString() {

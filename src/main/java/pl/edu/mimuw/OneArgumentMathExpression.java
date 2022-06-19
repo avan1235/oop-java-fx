@@ -1,22 +1,31 @@
 package pl.edu.mimuw;
 
 public abstract class OneArgumentMathExpression extends MathExpression {
-  public MathExpression onlyChild;
+  private MathExpression onlyChild;
 
+
+  public OneArgumentMathExpression() {
+    super();
+    this.onlyChild = null;
+  }
+
+  MathExpression getOnlyChild() {
+    return this.onlyChild;
+  }
 
   public String toString() {
-    if (this.onlyChild == null)
+    if (this.getOnlyChild() == null)
       return this.representation + "(...)";
-    return this.representation + "(" + this.onlyChild + ")";
+    return this.representation + "(" + this.getOnlyChild() + ")";
   }
 
   @Override
   public void input(MathExpression exp) {
-    if (this.onlyChild == null) {
+    if (this.getOnlyChild() == null) {
       this.insertChild(1, exp);
     } else {
-      if (!this.onlyChild.checkCompletion())
-        this.onlyChild.input(exp);
+      if (!this.getOnlyChild().checkCompletion())
+        this.getOnlyChild().input(exp);
       else
         throw new IllegalArgumentException();
     }
@@ -24,24 +33,24 @@ public abstract class OneArgumentMathExpression extends MathExpression {
 
   @Override
   public void notifyAboutCompletion() {
-    this.complete = (this.onlyChild != null && this.onlyChild.complete);
+    this.complete = (this.getOnlyChild() != null && this.getOnlyChild().checkCompletion());
     if (this.complete)
-      this.parent.notifyAboutCompletion();
+      this.getParent().notifyAboutCompletion();
   }
 
 
   @Override
   public boolean isConstant() {
     if (this.complete)
-      return this.onlyChild.isConstant();
+      return this.getOnlyChild().isConstant();
     return false;
   }
 
   @Override
   public void updateVariables() {
-    this.hasVariable = (this.onlyChild != null && this.onlyChild.hasVariable);
-    if (this.hasVariable && !this.parent.hasVariable)
-      this.parent.updateVariables();
+    this.hasVariable = (this.getOnlyChild() != null && this.getOnlyChild().hasVariable);
+    if (this.hasVariable && !this.getParent().hasVariable)
+      this.getParent().updateVariables();
   }
 
 
@@ -54,7 +63,7 @@ public abstract class OneArgumentMathExpression extends MathExpression {
   @Override
   public void insertChild(int num, MathExpression exp) {
     this.onlyChild = exp;
-    exp.parent = this;
+    exp.setParent(this);
     this.complete = exp.complete;
     this.hasVariable = exp.hasVariable;
   }
@@ -63,9 +72,9 @@ public abstract class OneArgumentMathExpression extends MathExpression {
   public boolean checkCompletion() {
     if (this.complete)
       return true;
-    if (this.onlyChild == null)
+    if (this.getOnlyChild() == null)
       return false;
-    this.complete = this.onlyChild.checkCompletion();
+    this.complete = this.getOnlyChild().checkCompletion();
     return this.complete;
   }
 
@@ -73,12 +82,12 @@ public abstract class OneArgumentMathExpression extends MathExpression {
   public boolean checkVariables() {
     if (this.hasVariable)
       return true;
-    if (this.onlyChild != null) {
-      if (this.onlyChild.isConstant()) {
+    if (this.getOnlyChild() != null) {
+      if (this.getOnlyChild().isConstant()) {
         this.hasVariable = false;
         return false;
       } else {
-        this.hasVariable = this.onlyChild.checkVariables();
+        this.hasVariable = this.getOnlyChild().checkVariables();
         return this.hasVariable;
       }
     }

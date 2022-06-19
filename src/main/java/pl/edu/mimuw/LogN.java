@@ -3,15 +3,13 @@ package pl.edu.mimuw;
 public class LogN extends OneArgumentMathExpression {
 
   public LogN() {
-    this.parent = null;
+    super();
     this.representation = "ln";
-    this.onlyChild = null;
-    this.hasVariable = false;
   }
 
   @Override
   public Double ifConstantThenValue() {
-    Double acc = this.onlyChild.ifConstantThenValue();
+    Double acc = this.getOnlyChild().ifConstantThenValue();
     if (acc != null) {
       if (acc <= 0) {
         MainExpression.corrupted = true;
@@ -28,10 +26,10 @@ public class LogN extends OneArgumentMathExpression {
   public double compute() {
     if (this.isConstant())
       return this.ifConstantThenValue();
-    double acc = this.onlyChild.compute();
+    double acc = this.getOnlyChild().compute();
     if (acc <= 0)
       throw new IllegalArgumentException();
-    return Math.log(this.onlyChild.compute());
+    return Math.log(this.getOnlyChild().compute());
   }
 
 
@@ -41,8 +39,8 @@ public class LogN extends OneArgumentMathExpression {
       return new ConstantMathExpression(0.0);
     else {
       Division res = new Division();
-      res.insertChild(1, this.onlyChild);
-      res.insertChild(2, this.onlyChild.calcDx());
+      res.insertChild(1, this.getOnlyChild());
+      res.insertChild(2, this.getOnlyChild().calcDx());
       res.complete = res.checkCompletion();
       res.hasVariable = res.checkVariables();
       return res;

@@ -1,10 +1,24 @@
 package pl.edu.mimuw;
 
 public abstract class MathExpression {
-  public MathExpression parent;
-  public String representation;
-  public boolean complete;
-  public boolean hasVariable;
+  private MathExpression parent;
+  protected String representation;
+  protected boolean complete;
+  protected boolean hasVariable;
+
+  public MathExpression() {
+    this.parent = null;
+    this.complete = false;
+    this.hasVariable = false;
+  }
+
+  protected MathExpression getParent() {
+    return this.parent;
+  }
+
+  protected void setParent(MathExpression parent) {
+    this.parent = parent;
+  }
 
   public Double ifConstantThenValue() {
     return null;

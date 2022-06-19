@@ -1,9 +1,24 @@
 package pl.edu.mimuw;
 
 public abstract class TwoArgumentMathExpression extends MathExpression {
-  public MathExpression leftChild;
-  public MathExpression rightChild;
+  private MathExpression leftChild;
+  private MathExpression rightChild;
 
+  public TwoArgumentMathExpression() {
+    super();
+    this.leftChild = null;
+    this.rightChild = null;
+  }
+
+
+
+  MathExpression getLeftChild() {
+    return this.leftChild;
+  }
+
+  public MathExpression getRightChild() {
+    return this.rightChild;
+  }
 
   public String toString() {
     if (this.leftChild == null)
@@ -18,9 +33,9 @@ public abstract class TwoArgumentMathExpression extends MathExpression {
 
   @Override
   public void notifyAboutCompletion() {
-    this.complete = (this.leftChild != null && this.leftChild.complete) && (this.rightChild != null && this.rightChild.complete);
+    this.complete = (this.leftChild != null && this.leftChild.checkCompletion()) && (this.rightChild != null && this.rightChild.checkCompletion());
     if (this.complete)
-      this.parent.notifyAboutCompletion();
+      this.getParent().notifyAboutCompletion();
   }
 
   @Override
@@ -50,8 +65,8 @@ public abstract class TwoArgumentMathExpression extends MathExpression {
   @Override
   public void updateVariables() {
     this.hasVariable = (this.leftChild != null && this.leftChild.hasVariable) || (this.rightChild != null && this.rightChild.hasVariable);
-    if (this.hasVariable && !this.parent.hasVariable)
-      this.parent.updateVariables();
+    if (this.hasVariable && !this.getParent().hasVariable)
+      this.getParent().updateVariables();
   }
 
   @Override
@@ -60,7 +75,7 @@ public abstract class TwoArgumentMathExpression extends MathExpression {
       this.leftChild = exp;
     else
       this.rightChild = exp;
-    exp.parent = this;
+    exp.setParent(this);
   }
 
   @Override

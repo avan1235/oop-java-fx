@@ -4,11 +4,9 @@ public class ConstantMathExpression extends MathExpression {
   public final double value;
 
   public ConstantMathExpression(double value) {
+    super();
     this.representation = "" + value;
     this.value = value;
-    this.parent = null;
-    this.complete = true;
-    this.hasVariable = false;
   }
 
   public String toString() {

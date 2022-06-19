@@ -3,17 +3,14 @@ package pl.edu.mimuw;
 public class Multiplication extends TwoArgumentMathExpression {
 
   public Multiplication() {
-    this.parent = null;
+    super();
     this.representation = "*";
-    this.rightChild = null;
-    this.leftChild = null;
-    this.hasVariable = false;
   }
 
   @Override
   public Double ifConstantThenValue() {
-    Double left = this.leftChild.ifConstantThenValue();
-    Double right = this.rightChild.ifConstantThenValue();
+    Double left = this.getLeftChild().ifConstantThenValue();
+    Double right = this.getRightChild().ifConstantThenValue();
     if ((left != null && left == 0.0) || (right != null && right == 0.0))
       return 0.0;
     if (left != null && right != null) {
@@ -28,13 +25,13 @@ public class Multiplication extends TwoArgumentMathExpression {
   public double compute() {
     if (this.isConstant())
       return this.ifConstantThenValue();
-    return this.leftChild.compute()*this.rightChild.compute();
+    return this.getLeftChild().compute()*this.getRightChild().compute();
   }
 
   public MathExpression calcDx() {
     if (this.checkVariables()) {
-      MathExpression l = this.leftChild.recompile();
-      MathExpression r = this.rightChild.recompile();
+      MathExpression l = this.getLeftChild().recompile();
+      MathExpression r = this.getRightChild().recompile();
       Multiplication ldxr = new Multiplication();
       ldxr.insertChild(1, l.calcDx().recompile());
       ldxr.insertChild(2, r);
@@ -57,12 +54,12 @@ public class Multiplication extends TwoArgumentMathExpression {
       if (!this.checkVariables())
         return new ConstantMathExpression(this.ifConstantThenValue());
       else {
-        if (this.rightChild.ifConstantThenValue() != null && this.rightChild.ifConstantThenValue() == 1.0)
-          return this.leftChild;
-        if ((this.rightChild.ifConstantThenValue() != null && this.rightChild.ifConstantThenValue() == 0.0) || (this.leftChild.ifConstantThenValue() != null && this.leftChild.ifConstantThenValue() == 0.0))
+        if (this.getRightChild().ifConstantThenValue() != null && this.getRightChild().ifConstantThenValue() == 1.0)
+          return this.getLeftChild();
+        if ((this.getRightChild().ifConstantThenValue() != null && this.getRightChild().ifConstantThenValue() == 0.0) || (this.getLeftChild().ifConstantThenValue() != null && this.getLeftChild().ifConstantThenValue() == 0.0))
           return new ConstantMathExpression(0.0);
-        if (this.leftChild.ifConstantThenValue() != null && this.leftChild.ifConstantThenValue() == 1.0)
-          return this.rightChild;
+        if (this.getLeftChild().ifConstantThenValue() != null && this.getLeftChild().ifConstantThenValue() == 1.0)
+          return this.getRightChild();
       }
     }
     return this;

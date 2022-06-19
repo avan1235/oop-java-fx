@@ -3,10 +3,8 @@ package pl.edu.mimuw;
 public class Derivative extends OneArgumentMathExpression {
 
   public Derivative() {
-    this.parent = null;
+    super();
     this.representation = "dx";
-    this.onlyChild = null;
-    this.hasVariable = false;
   }
 
   @Override
@@ -19,11 +17,11 @@ public class Derivative extends OneArgumentMathExpression {
   public double compute() {
     if (this.isConstant())
       return this.ifConstantThenValue();
-    return this.onlyChild.calcDx().compute();
+    return this.getOnlyChild().calcDx().compute();
   }
 
   @Override
   public MathExpression calcDx() {
-    return this.onlyChild.calcDx().calcDx();
+    return this.getOnlyChild().calcDx().calcDx();
   }
 }

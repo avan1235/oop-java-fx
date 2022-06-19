@@ -6,10 +6,8 @@ public class MainExpression extends MathExpression {
   public static boolean equalsClicked = false;
 
   public MainExpression() {
-    this.complete = false;
-    this.parent = null;
+    super();
     this.representation = "";
-    this.hasVariable = false;
     this.expression = null;
   }
 
@@ -37,6 +35,7 @@ public class MainExpression extends MathExpression {
     this.hasVariable = false;
     equalsClicked = false;
     corrupted = false;
+    Variable.assignedValue = null;
   }
 
 
@@ -46,7 +45,7 @@ public class MainExpression extends MathExpression {
     if (this.expression == null || !this.expression.checkCompletion()) {
       if (this.expression == null) {
         this.expression = exp;
-        exp.parent = this;
+        exp.setParent(this);
         if (exp.complete)
           this.complete = true;
       } else {
@@ -57,9 +56,9 @@ public class MainExpression extends MathExpression {
           Variable.assignedValue = exp.ifConstantThenValue();
         } else {
           if (exp.isOneArg()) {
-            ((OneArgumentMathExpression) exp).onlyChild = this.expression;
+            exp.input(this.expression);
             exp.complete = this.expression.complete;
-            this.expression.parent = exp;
+            this.expression.setParent(exp);
             this.expression = exp;
           } else {
             this.clear();
@@ -72,7 +71,7 @@ public class MainExpression extends MathExpression {
   public void takeDerivative() {
     if (this.expression.checkCompletion()) {
       this.expression = this.expression.calcDx().recompile();
-      this.expression.parent = this;
+      this.expression.setParent(this);
     } else {
       this.input(new Derivative());
     }
@@ -99,7 +98,7 @@ public class MainExpression extends MathExpression {
       res += "\n= ";
       if (this.checkCompletion() && !this.checkVariables()) {
         this.expression = this.expression.recompile();
-        this.expression.parent = this;
+        this.expression.setParent(this);
         res += this.compute();
         if (corrupted) {
           res = this.toString();
