@@ -1,70 +1,30 @@
-# Tiny Math
+# Tiny Math By Jan Szot 430165
 
-## Task description
+## Instructions
 
-Your goal is to write simple UI application that would allow you to solve math equations.
-We want to reuse our model of calculations that was designed a few weeks ago and try to
-use it in the context of UI application.
-We want to have:
-- `+`, `-`, `*` and `/` binary operations
-- `cos`, `sin` and `ln` unary operations
-- numbers (**in the UI** we can limit ourselves to single digit so possible input will be numbers `0`-`9`)
-- single variable `x`
-- derivative operation
-- value in specified point operation
-- placeholder to wait for user input (showing whitespace in the UI and throwing exception when actually used instead
-  of being replaced by actual operation)
+the main expression - the one you see when you input something via provided buttons cannot be extended,
+what it means is that to input let's say `cos(x * x) + ln(x)`, we are going to click
+1. `+`
+2. `cos`
+3. `*`
+4. `x`
+5. `x`
+6. `ln`
+7. `x`
 
-Your task is to:
-1. Write a model for this application that will be independent of the UI. It should be placed in separate package
-   (e.g. `pl.edu.mimuw.model`) and should have at least 3 tests in `DerivativeTest` class.
-2. Write UI for the model. The UI may contain buttons for operations, digits, variable and calculation of
-   the derivative and function value. **We can simplify** our approach here by restricting user to input
-   his function in specified way - he needs to build the math expression as `tree`, so for example,
-   to input `cos(x * x) + ln(x)` he would need to click
-   1. `+`
-   2. `Build Left`
-   3. `cos`
-   4. `Build child`
-   5. `*`
-   6. `Build Left`
-   7. `x`
-   8. `Left Done`
-   9. `Build Right`
-   10. `x`
-   11. `Right Done`
-   12. `Child Done`
-   13. `Left Done`
-   14. `Build Right`
-   15. `ln`
-   16. `Build Child`
-   17. `x`
-   18. `Child Done`
-   19. `Right Done`
+The UI will help you understand what you need to click next by outputting `...` in all the places missing expressions.
+The next thing you click will be put directly into the first missing expression slot. (Apart from clicking `=`, but we will get to that later)
+Additionally when the main expression no longer has any missing expressions, `(C)` will be displayed.
+In that state you can click certain button types:
 
-   where we need to use our placeholder for yet not-built child in tree representation and allow go through
-   the tree structure with extra buttons `Build Left`, `Build Right`, `Build Child`, `Left Done`, `Right Done`, `Child
-   Done`.
-   Of course, if you can think of some simpler/better input method for this kind of expressions, you can design them
-   using your own idea.
+  By clicking one of the one-argumented functions, these include
+`sin`, `cos`, `ln` and `dx`, you will modify the main expression. By doing so your main expression will be taken as the argument for the function clicked.
 
-## Hints
+By clicking a digit you will either input the value for x if there are any in the expression, or you will start a new expression and it will be just this digit.
 
-- first let's take a look at last commit introducing this task to see what is needed to work with JavaFX application
-in Gradle project - you can find it [here](https://github.com/avan1235/oop-java-fx/commit/c38cc6b775d1f510132422e98e0d6876cb8f9d6c).
-- you can find sample app in `Main` class - it creates an application with some buttons and text area
-which are properly aligned and have some actions assigned to them.
-- ou should start your application with `run` task. As usual, you can start it from console with
-  ```shell
-  ./gradlew run
-  ```
-  but also you can run it from IDE by clicking `Ctrl` twice and inputting `gradlew run` as task name - this
-  will create extra run configuration in the IDE, and you'll be able to run your app with green triangle
-  button in top-right corner (as well as debug your application).
-- be aware of Java version used in this task (there is some mess in terms of JavaFX) - I used Java 11 and
-it worked well, so start with checking the `File/Project structure` settings if you have the same version.
-- don't forget about providing required unit tests of your model to show me that you already know how to
-write these tests.
-- feel free to ask questions as there may be new things - [here](https://jenkov.com/tutorials/javafx/index.html)
-you can find a good description and examples of the usage of JavaFX - let's take a look there to find some
-new controls for your application.
+By clicking one of the two-argumented function buttons, these include `*`, `-`, `/` and `+` you will restart the process.
+
+By clicking equals one of three things will happen: if there are either no variables, or the value of the variables is initiated, the result will be shown, otherwise
+the ui will ask you to input it, so it can perform the calculations.
+
+Have fun testing and thanks for reading me! ;~}
