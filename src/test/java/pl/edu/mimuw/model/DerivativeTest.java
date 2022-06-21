@@ -15,7 +15,7 @@ class DerivativeTest {
   @Test
   void derivativeBasicTest() {
     final Expression xCubed = new Times(new Variable(), new Times(new Variable(), new Variable()));
-    assertEquals("((x * ((x * 1.0) + (1.0 * x))) + (1.0 * (x * x))))" ,xCubed.derivative().getStringRepresentation());
+    assertEquals("((x * ((x * 1.0) + (1.0 * x))) + (1.0 * (x * x)))" ,xCubed.derivative().getStringRepresentation());
     //Equivalent of 3x^2
   }
 
