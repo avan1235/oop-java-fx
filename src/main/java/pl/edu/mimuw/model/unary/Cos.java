@@ -1,12 +1,14 @@
 package pl.edu.mimuw.model.unary;
 
-import pl.edu.mimuw.model.Constant;
+import pl.edu.mimuw.model.argumentless.Constant;
 import pl.edu.mimuw.model.Expression;
 import pl.edu.mimuw.model.binary.Times;
 
 public class Cos extends UnaryExpression {
+  private static final String COS_OPERATOR = "cos";
+
   public Cos(Expression child) {
-    super(child);
+    super(child, COS_OPERATOR);
   }
 
   @Override
@@ -21,10 +23,5 @@ public class Cos extends UnaryExpression {
 
     Expression baseDerivative = new Times(childDerivative, new Sin(this.child));
     return new Times(new Constant(-1), baseDerivative);
-  }
-
-  @Override
-  public String getOperatorString() {
-    return "cos";
   }
 }

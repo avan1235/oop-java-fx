@@ -3,8 +3,10 @@ package pl.edu.mimuw.model.binary;
 import pl.edu.mimuw.model.Expression;
 
 public class Minus extends BinaryExpression {
+  private static final String MINUS_OPERATOR = "-";
+
   public Minus(Expression leftChild, Expression rightChild) {
-    super(leftChild, rightChild);
+    super(leftChild, rightChild, MINUS_OPERATOR);
   }
 
   @Override
@@ -18,10 +20,5 @@ public class Minus extends BinaryExpression {
     Expression rightDerivative = this.rightChild.derivative();
 
     return new Minus(leftDerivative, rightDerivative);
-  }
-
-  @Override
-  public String getOperatorString() {
-    return "-";
   }
 }

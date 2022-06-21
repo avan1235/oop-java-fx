@@ -1,6 +1,8 @@
-package pl.edu.mimuw.model;
+package pl.edu.mimuw.model.argumentless;
 
-public class Constant implements Expression {
+import pl.edu.mimuw.model.Expression;
+
+public class Constant extends ArgumentlessExpression {
   private final double value;
 
   public Constant(double value) {

@@ -3,8 +3,10 @@ package pl.edu.mimuw.model.binary;
 import pl.edu.mimuw.model.Expression;
 
 public class Divide extends BinaryExpression {
+  private static final String DIVIDE_OPERATOR = "/";
+
   public Divide(Expression leftChild, Expression rightChild) {
-    super(leftChild, rightChild);
+    super(leftChild, rightChild, DIVIDE_OPERATOR);
   }
 
   @Override
@@ -20,10 +22,5 @@ public class Divide extends BinaryExpression {
     Expression numerator = new Minus(new Times(leftDerivative, this.rightChild), new Times(this.leftChild, rightDerivative));
 
     return new Divide(numerator, new Times(this.rightChild, this.rightChild));
-  }
-
-  @Override
-  public String getOperatorString() {
-    return "/";
   }
 }

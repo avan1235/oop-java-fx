@@ -1,7 +1,7 @@
 package pl.edu.mimuw.model;
 
 import org.junit.jupiter.api.Test;
-import pl.edu.mimuw.model.binary.Divide;
+import pl.edu.mimuw.model.argumentless.Variable;
 import pl.edu.mimuw.model.binary.Plus;
 import pl.edu.mimuw.model.binary.Times;
 import pl.edu.mimuw.model.unary.Cos;
@@ -15,7 +15,7 @@ class DerivativeTest {
   @Test
   void derivativeBasicTest() {
     final Expression xCubed = new Times(new Variable(), new Times(new Variable(), new Variable()));
-    assertEquals(xCubed.derivative().getStringRepresentation(), "((x * ((x * 1.0) + (1.0 * x))) + (1.0 * (x * x))))");
+    assertEquals("((x * ((x * 1.0) + (1.0 * x))) + (1.0 * (x * x))))" ,xCubed.derivative().getStringRepresentation());
     //Equivalent of 3x^2
   }
 
@@ -27,16 +27,16 @@ class DerivativeTest {
     final Expression expr = new Plus(expr1, expr2);
     final Expression derivative = expr.derivative();
 
-    assertEquals(derivative.getStringRepresentation(), "(((-1.0 * (1.0 * sin x)) + (1.0 * cos x)) + ((1.0 * (1.0 / x)) + 1.0))");
+    assertEquals("(((-1.0 * (1.0 * sin x)) + (1.0 * cos x)) + ((1.0 * (1.0 / x)) + 1.0))" ,derivative.getStringRepresentation());
     //Equivalent of -sin x + cos x + 1/x + 1
   }
 
   @Test
   void derivativeMultipleTest() {
     final Expression x = new Variable();
-    assertEquals(x.getStringRepresentation(), "x");
-    assertEquals(x.derivative().getStringRepresentation(), "1.0");
-    assertEquals(x.derivative().derivative().getStringRepresentation(), "0.0");
-    assertEquals(x.derivative().derivative().derivative().getStringRepresentation(), "0.0");
+    assertEquals("x", x.getStringRepresentation());
+    assertEquals("1.0", x.derivative().getStringRepresentation());
+    assertEquals("0.0", x.derivative().derivative().getStringRepresentation());
+    assertEquals("0.0", x.derivative().derivative().derivative().getStringRepresentation());
   }
 }

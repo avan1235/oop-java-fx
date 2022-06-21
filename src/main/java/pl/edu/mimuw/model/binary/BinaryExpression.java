@@ -3,18 +3,20 @@ package pl.edu.mimuw.model.binary;
 import pl.edu.mimuw.model.Expression;
 
 public abstract class BinaryExpression implements Expression {
-  protected final Expression leftChild;
-  protected final Expression rightChild;
+  protected Expression leftChild;
+  protected Expression rightChild;
+  protected String operatorString;
 
-  public BinaryExpression(Expression l, Expression r) {
+  public BinaryExpression(Expression l, Expression r, String operator) {
     this.leftChild = l;
     this.rightChild = r;
+    this.operatorString = operator;
   }
 
   @Override
   public double evaluateAtPoint(double point) {
     double leftValue = leftChild.evaluateAtPoint(point);
-    double rightValue = leftChild.evaluateAtPoint(point);
+    double rightValue = rightChild.evaluateAtPoint(point);
 
     return this.mergeValues(leftValue, rightValue);
   }
@@ -27,8 +29,21 @@ public abstract class BinaryExpression implements Expression {
     String leftRepresentation = this.leftChild.getStringRepresentation();
     String rightRepresentation = this.rightChild.getStringRepresentation();
 
-    return "(" + leftRepresentation + " " + getOperatorString() + " " + rightRepresentation + ")";
+    return "(" + leftRepresentation + " " + operatorString + " " + rightRepresentation + ")";
   }
 
-  public abstract String getOperatorString();
+  @Override
+  public void setLeftChild(Expression ex) {
+    this.leftChild = ex;
+  }
+
+  @Override
+  public void setRightChild(Expression ex) {
+    this.rightChild = ex;
+  }
+
+  @Override
+  public void setChild(Expression ex) {
+    throw new UnsupportedOperationException("Cannot set child on binary expression.");
+  }
 }

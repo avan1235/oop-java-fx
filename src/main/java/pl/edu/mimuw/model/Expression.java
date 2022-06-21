@@ -6,4 +6,8 @@ public interface Expression {
   Expression derivative();
 
   String getStringRepresentation();
+
+  void setLeftChild(Expression ex);
+  void setRightChild(Expression ex);
+  void setChild(Expression ex);
 }

@@ -1,6 +1,8 @@
-package pl.edu.mimuw.model;
+package pl.edu.mimuw.model.argumentless;
 
-public class Variable implements Expression {
+import pl.edu.mimuw.model.Expression;
+
+public class Variable extends ArgumentlessExpression {
   @Override
   public double evaluateAtPoint(double point) {
     return point;
